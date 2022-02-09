@@ -1,11 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const shortid = require("shortid");
-
+const cors = require("cors");
 const app = express();
 
 app.use(express.json());
-
+app.use(cors());
 mongoose.connect("mongodb://localhost:27017/react-shopping-cart-db");
 
 const Product = mongoose.model(
@@ -32,7 +32,7 @@ app.post("/api/products", async (req, res) => {
 });
 
 app.delete("/api/products/:id", async (req, res) => {
-  const deletedProduct = await Product.findById(req.params.id);
+  const deletedProduct = await Product.findByIdAndDelete(req.params.id);
   res.send(deletedProduct);
 });
 
